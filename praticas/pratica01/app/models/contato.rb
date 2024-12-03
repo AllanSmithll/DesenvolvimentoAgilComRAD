@@ -1,5 +1,6 @@
 class Contato < ApplicationRecord
-  belongs_to :loja
+  validates :tipo, presence: true
+  validates :valor, presence: true, uniqueness: true
 
-  validates :tipo, :valor, :loja_id, presence: true
+  belongs_to :loja
 end

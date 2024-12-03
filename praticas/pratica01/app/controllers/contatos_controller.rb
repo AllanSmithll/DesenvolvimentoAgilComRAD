@@ -1,5 +1,6 @@
 class ContatosController < ApplicationController
-  before_action :set_contato, only: %i[ show edit update destroy ]
+  before_action :set_contato, only: %i[show edit update destroy]
+  before_action :set_lojas, only: %i[new edit]
 
   # GET /contatos or /contatos.json
   def index
@@ -13,12 +14,10 @@ class ContatosController < ApplicationController
   # GET /contatos/new
   def new
     @contato = Contato.new
-    @lojas = Loja.all
   end
 
   # GET /contatos/1/edit
   def edit
-    @lojas = Loja.all
   end
 
   # POST /contatos or /contatos.json
@@ -30,6 +29,7 @@ class ContatosController < ApplicationController
         format.html { redirect_to @contato, notice: "Contato was successfully created." }
         format.json { render :show, status: :created, location: @contato }
       else
+        set_lojas # Garante que @lojas será definido novamente no caso de erro.
         format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @contato.errors, status: :unprocessable_entity }
       end
@@ -43,6 +43,7 @@ class ContatosController < ApplicationController
         format.html { redirect_to @contato, notice: "Contato was successfully updated." }
         format.json { render :show, status: :ok, location: @contato }
       else
+        set_lojas # Garante que @lojas será definido novamente no caso de erro.
         format.html { render :edit, status: :unprocessable_entity }
         format.json { render json: @contato.errors, status: :unprocessable_entity }
       end
@@ -60,13 +61,18 @@ class ContatosController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_contato
-      @contato = Contato.find(params.expect(:id))
-    end
 
-    # Only allow a list of trusted parameters through.
-    def contato_params
-      params.expect(contato: [ :tipo, :valor, :loja_id ])
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_contato
+    @contato = Contato.find(params[:id])
+  end
+
+  def set_lojas
+    @lojas = Loja.all
+  end
+
+  # Only allow a list of trusted parameters through.
+  def contato_params
+    params.require(:contato).permit(:tipo, :valor, :loja_id)
+  end
 end

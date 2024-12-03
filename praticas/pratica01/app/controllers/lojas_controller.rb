@@ -8,6 +8,7 @@ class LojasController < ApplicationController
 
   # GET /lojas/1 or /lojas/1.json
   def show
+    @loja = Loja.includes(:gerente, :contatoes).find(params[:id])
   end
 
   # GET /lojas/new

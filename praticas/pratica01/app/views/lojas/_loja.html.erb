@@ -1,7 +1,33 @@
-<div id="<%= dom_id loja %>">
-  <p>
-    <strong>Nome:</strong>
-    <%= loja.nome %>
-  </p>
+<% content_for :title, "Detalhes da Loja" %>
 
+<h1>Detalhes da Loja</h1>
+
+<div class="card" style="width: 60%; margin: 0 auto;">
+  <div class="card-header">
+    <h2><%= @loja.nome %></h2>
+  </div>
+  <div class="card-body">
+    <h3>Informações da Loja</h3>
+    <p><strong>ID:</strong> <%= @loja.id %></p>
+    <p><strong>Nome:</strong> <%= @loja.nome %></p>
+
+    <h3>Gerente</h3>
+    <% if @loja.gerente.present? %>
+      <p><strong>Nome:</strong> <%= @loja.gerente.nome %></p>
+      <p><strong>Data de Nascimento:</strong> <%= @loja.gerente.nascimento.strftime('%d/%m/%Y') %></p>
+    <% else %>
+      <p>Sem gerente associado.</p>
+    <% end %>
+
+    <h3>Contatos</h3>
+    <% if @loja.contatoes.any? %>
+      <ul>
+        <% @loja.contatoes.each do |contato| %>
+          <li><strong>Tipo:</strong> <%= contato.tipo %> | <strong>Valor:</strong> <%= contato.valor %></li>
+        <% end %>
+      </ul>
+    <% else %>
+      <p>Sem contatos cadastrados.</p>
+    <% end %>
+  </div>
 </div>
