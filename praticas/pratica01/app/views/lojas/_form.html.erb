@@ -1,0 +1,41 @@
+<div class="container mt-4">
+  <div class="row justify-content-center">
+    <div class="col-md-6"> <!-- Ajuste a largura com col-md-* ou col-lg-* -->
+      <%= form_with(model: loja, local: true) do |form| %>
+        <% if loja.errors.any? %>
+          <div class="alert alert-danger">
+            <h2><%= pluralize(loja.errors.count, "erro") %> proíbem a loja de ser salva:</h2>
+            <ul>
+              <% loja.errors.full_messages.each do |msg| %>
+                <li><%= msg %></li>
+              <% end %>
+            </ul>
+          </div>
+        <% end %>
+
+        <div class="mb-3">
+          <%= form.label :nome, class: "form-label" %>
+          <%= form.text_field :nome, class: "form-control" %>
+        </div>
+
+        <h2 class="mt-4">Gerente</h2>
+        <%= form.fields_for :gerente do |gerente_fields| %>
+          <div class="mb-3">
+            <%= gerente_fields.label "Nome do gerente", class: "form-label" %>
+            <%= gerente_fields.text_field :nome, class: "form-control" %>
+          </div>
+
+          <div class="mb-3">
+            <%= gerente_fields.label "Data de nascimento", class: "form-label" %>
+            <%= gerente_fields.date_field :nascimento, class: "form-control" %>
+          </div>
+        <% end %>
+
+        <div class="d-flex justify-content-between">
+          <%= form.submit "Salvar", class: "btn btn-primary" %>
+          <%= link_to "Cancelar", lojas_path, class: "btn btn-secondary" %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

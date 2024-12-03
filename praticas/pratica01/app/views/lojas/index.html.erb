@@ -1,0 +1,31 @@
+<p style="color: green"><%= notice %></p>
+
+<% content_for :title, "Lojas" %>
+
+<h1>Lojas</h1>
+
+<div class="container-sm">
+  <table class="table table-striped">
+    <thead class="table-dark">
+    <tr>
+      <th>ID</th>
+      <th>Nome da Loja</th>
+      <th>Nome do Gerente</th>
+      <th>Ações</th>
+    </tr>
+    </thead>
+    <tbody>
+    <% @lojas.each do |loja| %>
+      <tr>
+        <td><%= loja.id %></td>
+        <td><%= loja.nome %></td>
+        <td><%= loja.gerente&.nome || "Sem gerente" %></td>
+        <td>
+          <%= link_to 'Detalhes', loja_path(loja), class: 'btn btn-info btn-sm' %>
+        </td>
+      </tr>
+    <% end %>
+    </tbody>
+  </table>
+  <%= link_to "New loja", new_loja_path %>
+</div>

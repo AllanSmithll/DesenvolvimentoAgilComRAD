@@ -1,0 +1,38 @@
+<div class="container mt-4">
+  <div class="row justify-content-center">
+    <div class="col-md-6"> <!-- Ajuste a largura com col-md-* ou col-lg-* -->
+      <%= form_with(model: contato, local: true) do |form| %>
+        <% if contato.errors.any? %>
+          <div class="alert alert-danger">
+            <h2><%= pluralize(contato.errors.count, "erro") %> proíbem o contato de ser salvo:</h2>
+            <ul>
+              <% contato.errors.full_messages.each do |msg| %>
+                <li><%= msg %></li>
+              <% end %>
+            </ul>
+          </div>
+        <% end %>
+
+        <div class="mb-3">
+          <%= form.label :tipo, class: "form-label" %>
+          <%= form.text_field :tipo, class: "form-control" %>
+        </div>
+
+        <div class="mb-3">
+          <%= form.label :valor, class: "form-label" %>
+          <%= form.text_field :valor, class: "form-control" %>
+        </div>
+
+        <div class="mb-3">
+          <%= form.label :loja_id, "Loja", class: "form-label" %>
+          <%= form.collection_select :loja_id, @lojas, :id, :nome, prompt: "Selecione uma loja", class: "form-select" %>
+        </div>
+
+        <div class="d-flex justify-content-between">
+          <%= form.submit class: "btn btn-primary" %>
+          <%= link_to "Cancelar", contatos_path, class: "btn btn-secondary" %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
